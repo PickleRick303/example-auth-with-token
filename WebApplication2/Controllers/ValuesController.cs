@@ -12,6 +12,7 @@ namespace WebApplication2.Controllers
     [Route("api/ff/[controller]")]
     public class ValuesController : Controller
     {
+        // проверка работы авторизации
         [Authorize]
         [HttpGet]
         [Route("getlogin")]
@@ -19,7 +20,7 @@ namespace WebApplication2.Controllers
         {
             return Ok($"Ваш логин: {User.Identity.Name}");
         }
-
+        // проверка работы прав авторизации
         [Authorize(Roles = "users")]
         [HttpGet]
         [Route("getrole")]

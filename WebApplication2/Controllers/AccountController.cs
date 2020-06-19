@@ -21,6 +21,7 @@ namespace WebApplication2.Controllers
         [HttpPost("/token")]
         public IActionResult Token(string username, string password)
         {
+            // поиск юзера
             Person person = people.FirstOrDefault(x => x.Login == username && x.Password == password);
            
             if (person == null)
@@ -38,7 +39,7 @@ namespace WebApplication2.Controllers
                     expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                     signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
+            // отдаем на фронт токен + инфо о юзере
             var response = new
             {
                 access_token = encodedJwt,
@@ -49,7 +50,7 @@ namespace WebApplication2.Controllers
 
             return Json(response);
         }
-
+        // генерируем права для авторизации из Claims юзера
         private ClaimsIdentity GetIdentity(Person person)
         {
            
